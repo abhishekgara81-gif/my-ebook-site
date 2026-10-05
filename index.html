@@ -3,100 +3,326 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Learn HTML in 7 Days - Premium E-Book</title>
+    <title>Aashu's Premium Digital Library - 5 E-Books</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); color: #fff; min-height: 100vh; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .hero { text-align: center; margin-bottom: 30px; animation: fadeIn 1s ease-in-out; }
-        .hero h1 { font-size: 2.8rem; color: #00d2ff; font-weight: 700; text-shadow: 0 2px 10px rgba(0,210,255,0.3); margin-bottom: 10px; }
-        .hero p { font-size: 1.2rem; color: #e0e0e0; max-width: 600px; margin: 0 auto; }
-        .main-container { display: flex; flex-wrap: wrap; max-width: 950px; width: 100%; background: rgba(255, 255, 255, 0.06); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); overflow: hidden; }
-        .book-preview { flex: 1; min-width: 300px; background: rgba(0, 0, 0, 0.2); padding: 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; border-right: 1px solid rgba(255, 255, 255, 0.1); }
-        .book-cover { width: 180px; height: 260px; background: linear-gradient(45deg, #00c6ff, #0072ff); border-radius: 10px; box-shadow: 0 15px 35px rgba(0,114,255,0.4); display: flex; align-items: center; justify-content: center; font-size: 4rem; margin-bottom: 20px; border-left: 5px solid #0052d4; transition: transform 0.3s; }
-        .book-cover:hover { transform: scale(1.05) rotate(2deg); }
-        .form-section { flex: 1; min-width: 300px; padding: 40px; display: flex; flex-direction: column; justify-content: center; }
-        h2 { font-size: 1.8rem; color: #fff; margin-bottom: 20px; font-weight: 600; text-align: center; }
-        input { width: 100%; padding: 14px; margin-bottom: 18px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.08); color: #fff; border-radius: 8px; font-size: 16px; transition: 0.3s; }
-        input::placeholder { color: #ccc; }
-        input:focus { border-color: #00d2ff; background: rgba(255,255,255,0.15); outline: none; box-shadow: 0 0 10px rgba(0,210,255,0.2); }
-        button { background: linear-gradient(90deg, #ff416c, #ff4b2b); color: white; border: none; padding: 14px; font-size: 18px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; letter-spacing: 1px; box-shadow: 0 5px 15px rgba(255,65,108,0.4); transition: 0.3s; }
-        button:hover { background: linear-gradient(90deg, #ff4b2b, #ff416c); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255,65,108,0.6); }
-        .database-box { width: 100%; max-width: 950px; margin-top: 35px; background: rgba(0, 0, 0, 0.4); padding: 25px; border-radius: 15px; border: 1px solid rgba(255, 255, 255, 0.08); }
-        .database-box h3 { font-size: 1.3rem; margin-bottom: 15px; color: #00d2ff; display: flex; align-items: center; gap: 10px; }
+        @import url('https://googleapis.com');
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+        
+        body { 
+            /* प्रीमियम और लग्जरी डार्क नियॉन ग्रेडिएंट बैकग्राउंड */
+            background: linear-gradient(135deg, #060c11, #0f2027, #203a43, #15202b);
+            color: #fff; 
+            min-height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        /* प्रीमियम नेविगेशन बार (Nav Bar) */
+        .navbar {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-logo { font-size: 1.5rem; font-weight: 700; color: #00d2ff; text-decoration: none; text-shadow: 0 0 10px rgba(0,210,255,0.3); }
+        .nav-links { display: flex; gap: 25px; list-style: none; }
+        .nav-links a { color: #cfd8dc; text-decoration: none; font-size: 0.95rem; font-weight: 400; transition: 0.3s; }
+        .nav-links a:hover { color: #00d2ff; }
+
+        /* मुख्य कंटेनर पैडिंग */
+        .main-content {
+            width: 100%;
+            max-width: 1200px;
+            padding: 50px 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header { text-align: center; margin-bottom: 50px; }
+        .header h1 { font-size: 3.2rem; font-weight: 700; color: #00d2ff; text-shadow: 0 0 25px rgba(0,210,255,0.4); }
+        .header p { color: #b0bec5; margin-top: 12px; font-size: 1.25rem; font-weight: 300; }
+        
+        /* लाइब्रेरी ग्रिड */
+        .library-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 30px; 
+            width: 100%; 
+            margin-bottom: 60px; 
+        }
+
+        /* 3D प्रीमियम बुक कार्ड */
+        .book-card { 
+            background: rgba(255, 255, 255, 0.03); 
+            backdrop-filter: blur(16px); 
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+            border-radius: 24px; 
+            padding: 30px; 
+            text-align: center; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4); 
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: space-between;
+        }
+        .book-card:hover { 
+            transform: translateY(-8px); 
+            border-color: #00d2ff; 
+            box-shadow: 0 20px 40px rgba(0, 210, 255, 0.25);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .book-icon { font-size: 4rem; margin-bottom: 15px; display: inline-block; filter: drop-shadow(0 0 10px rgba(255,255,255,0.2)); }
+        .book-title { font-size: 1.35rem; margin-bottom: 10px; color: #fff; font-weight: 600; letter-spacing: 0.5px; }
+        .book-desc { font-size: 0.9rem; color: #b0bec5; margin-bottom: 25px; min-height: 48px; line-height: 1.5; }
+        
+        .form-box { width: 100%; }
+        
+        /* इनपुट्स स्टाइल */
+        input { 
+            width: 100%; 
+            padding: 14px; 
+            margin-bottom: 14px; 
+            border: 1px solid rgba(255,255,255,0.12); 
+            background: rgba(255,255,255,0.05); 
+            color: #fff; 
+            border-radius: 10px; 
+            font-size: 14.5px; 
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        input::placeholder { color: #90a4ae; }
+        input:focus { border-color: #00d2ff; outline: none; background: rgba(255,255,255,0.1); box-shadow: 0 0 12px rgba(0,210,255,0.2); }
+        
+        .btn-group { display: flex; gap: 12px; width: 100%; }
+
+        .action-btn { 
+            color: white; border: none; padding: 12px 12px; font-size: 14.5px; border-radius: 10px; cursor: pointer; flex: 1; font-weight: bold; text-decoration: none; text-align: center; transition: all 0.3s ease;
+        }
+        
+        /* Buttons glow theme */
+        .view-btn { background: linear-gradient(90deg, #4facfe, #00f2fe); box-shadow: 0 4px 15px rgba(79, 172, 254, 0.25); }
+        .view-btn:hover { background: linear-gradient(90deg, #00f2fe, #4facfe); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(79, 172, 254, 0.4); }
+
+        .download-btn { background: linear-gradient(90deg, #ff416c, #ff4b2b); box-shadow: 0 4px 15px rgba(255,65,108,0.25); }
+        .download-btn:hover { background: linear-gradient(90deg, #ff4b2b, #ff416c); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,65,108,0.4); }
+        
+        /* डेटाबेस डैशबोर्ड */
+        .database-box { 
+            width: 100%; background: rgba(0, 0, 0, 0.5); padding: 30px; border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.06); box-shadow: 0 20px 45px rgba(0,0,0,0.5);
+        }
+        .database-box h3 { font-size: 1.45rem; margin-bottom: 20px; color: #00d2ff; font-weight: 600; }
+        
         table { width: 100%; border-collapse: collapse; }
-        th, td { border: 1px solid rgba(255,255,255,0.1); padding: 12px; text-align: left; font-size: 15px; }
-        th { background-color: rgba(0, 210, 255, 0.15); color: #00d2ff; font-weight: 600; }
-        td { color: #e0e0e0; background: rgba(255,255,255,0.02); }
-        tr:hover td { background: rgba(255,255,255,0.05); }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        th, td { border: 1px solid rgba(255,255,255,0.06); padding: 14px; text-align: left; font-size: 14.5px; }
+        th { background-color: rgba(0, 210, 255, 0.1); color: #00d2ff; font-weight: 600; }
+        td { color: #e0e0e0; background: rgba(255,255,255,0.005); }
+        tr:hover td { background: rgba(255,255,255,0.03); }
+
+        /* प्रोफेशनल फुटर */
+        footer {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 25px;
+            text-align: center;
+            color: #8892b0;
+            font-size: 0.95rem;
+            margin-top: 60px;
+        }
+        footer span { color: #00d2ff; font-weight: 600; }
     </style>
 </head>
 <body>
 
-    <div class="hero">
-        <h1>"Learn HTML in 7 Days"</h1>
-        <p>बिना किसी कोडिंग बैकग्राउंड के वेब लेआउट के मास्टर बनें। आज ही अपनी फ्री कॉपी डाउनलोड करें!</p>
-    </div>
+    <!-- 🌐 लाइव नेविगेशन बार -->
+    <nav class="navbar">
+        <a href="#" class="nav-logo">📚 Aashu's Library</a>
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#library">Books</a></li>
+            <li><a href="#logs">Database</a></li>
+        </ul>
+    </nav>
 
-    <div class="main-container">
-        <!-- बुक कवर विजुअल -->
-        <div class="book-preview">
-            <div class="book-cover">📚</div>
-            <h3>Premium Edition</h3>
-            <p style="font-size: 0.9rem; color: #aaa; margin-top: 5px;">HTML5 & Modern Layouts Included</p>
+    <!-- 📂 मुख्य कंटेंट एरिया -->
+    <div class="main-content">
+        
+        <div class="header" id="library">
+            <h1>Aashu's Digital Library</h1>
+            <p>Enter your details to View or Download premium tech e-books for free!</p>
         </div>
 
-        <!-- डाउनलोड फॉर्म सेक्शन -->
-        <div class="form-section">
-            <h2>Download Your Free Copy Now</h2>
-            <form id="subForm">
-                <input type="text" id="userName" placeholder="आपका नाम (Your Name)" required>
-                <input type="email" id="userEmail" placeholder="आपकी ईमेल आईडी (Your Email)" required>
-                <button type="submit">Download E-Book 🚀</button>
-            </form>
+        <div class="library-grid">
+            
+            <!-- Book 1 -->
+            <div class="book-card">
+                <div>
+                    <div class="book-icon">📘</div>
+                    <div class="book-title">HTML5 Master Guide</div>
+                    <div class="book-desc">Learn HTML layout structure in 7 days with practical expert notes.</div>
+                </div>
+                <div class="form-box">
+                    <input type="text" id="name1" placeholder="Enter Your Name" required>
+                    <input type="email" id="email1" placeholder="Enter Your Email" required>
+                    <div class="btn-group">
+                        <button type="button" class="action-btn view-btn" onclick="handleAction('name1', 'email1', 'Book1.pdf', 'HTML5 Guide', 'View')">👁️ View</button>
+                        <button type="button" class="action-btn download-btn" onclick="handleAction('name1', 'email1', 'Book1.pdf', 'HTML5 Guide', 'Download')">📥 Get</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Book 2 -->
+            <div class="book-card">
+                <div>
+                    <div class="book-icon">📙</div>
+                    <div class="book-title">CSS3 Styling Pro</div>
+                    <div class="book-desc">Master modern responsive web layouts, core design patterns, and beautiful animations.</div>
+                </div>
+                <div class="form-box">
+                    <input type="text" id="name2" placeholder="Enter Your Name" required>
+                    <input type="email" id="email2" placeholder="Enter Your Email" required>
+                    <div class="btn-group">
+                        <button type="button" class="action-btn view-btn" onclick="handleAction('name2', 'email2', 'Book2.pdf', 'CSS3 Styling', 'View')">👁️ View</button>
+                        <button type="button" class="action-btn download-btn" onclick="handleAction('name2', 'email2', 'Book2.pdf', 'CSS3 Styling', 'Download')">📥 Get</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Book 3 -->
+            <div class="book-card">
+                <div>
+                    <div class="book-icon">📗</div>
+                    <div class="book-title">JavaScript Basics</div>
+                    <div class="book-desc">Understand basic application logic, conditional loops, and dynamic DOM functions.</div>
+                </div>
+                <div class="form-box">
+                    <input type="text" id="name3" placeholder="Enter Your Name" required>
+                    <input type="email" id="email3" placeholder="Enter Your Email" required>
+                    <div class="btn-group">
+                        <button type="button" class="action-btn view-btn" onclick="handleAction('name3', 'email3', 'Book3.pdf', 'JavaScript Basics', 'View')">👁️ View</button>
+
+                        <button type="button" class="action-btn download-btn" onclick="handleAction('name3', 'email3', 'Book3.pdf', 'JavaScript Basics', 'Download')">📥 Get</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Book 4 -->
+            <div class="book-card">
+                <div>
+                    <div class="book-icon">📕</div>
+                    <div class="book-title">Full Stack Roadmap</div>
+                    <div class="book-desc">A comprehensive step-by-step career path to becoming a professional engineering lead.</div>
+                </div>
+                <div class="form-box">
+                    <input type="text" id="name4" placeholder="Enter Your Name" required>
+                    <input type="email" id="email4" placeholder="Enter Your Email" required>
+                    <div class="btn-group">
+                        <button type="button" class="action-btn view-btn" onclick="handleAction('name4', 'email4', 'Book4.pdf', 'Full Stack Roadmap', 'View')">👁️ View</button>
+                        <button type="button" class="action-btn download-btn" onclick="handleAction('name4', 'email4', 'Book4.pdf', 'Full Stack Roadmap', 'Download')">📥 Get</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Book 5 -->
+            <div class="book-card">
+                <div>
+                    <div class="book-icon">📓</div>
+                    <div class="book-title">SQLite Database Guide</div>
+                    <div class="book-desc">Learn how to build local application tables and store logs securely.</div>
+                </div>
+                <div class="form-box">
+                    <input type="text" id="name5" placeholder="Enter Your Name" required>
+                    <input type="email" id="email5" placeholder="Enter Your Email" required>
+                    <div class="btn-group">
+                        <button type="button" class="action-btn view-btn" onclick="handleAction('name5', 'email5', 'Book5.pdf', 'SQLite Database', 'View')">👁️ View</button>
+                        <button type="button" class="action-btn download-btn" onclick="handleAction('name5', 'email5', 'Book5.pdf', 'SQLite Database', 'Download')">📥 Get</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- लाइव डेटाबेस डैशबोर्ड -->
+        <div class="database-box" id="logs">
+            <h3>🖥️ Live Database Logs (Downloaded / Viewed Books History)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email Address</th>
+                        <th>Book Name & Action</th>
+                    </tr>
+                </thead>
+                <tbody id="dbRows"></tbody>
+            </table>
         </div>
     </div>
 
-    <!-- लाइव डेटाबेस डैशबोर्ड -->
-    <div class="database-box">
-        <h3>🖥️ Live SQLite/Local Database Logs</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>नाम (Name)</th>
-                    <th>ईमेल (Email)</th>
-                </tr>
-            </thead>
-            <tbody id="dbRows">
-                <!-- डेटा यहाँ लाइव दिखेगा -->
-            </tbody>
-        </table>
-    </div>
+    <!-- प्रोफेशनल फुटर -->
+    <footer>
+        <p>&copy; 2026 <span>Aashu's Digital Library</span>. All Rights Reserved. Crafted with ❤️ for Developers.</p>
+    </footer>
 
     <script>
         function loadDatabase() {
             const dbRows = document.getElementById('dbRows');
             dbRows.innerHTML = '';
-            const subscribers = JSON.parse(localStorage.getItem('subscribers') || '[]');
+            const subscribers = JSON.parse(localStorage.getItem('lib_subscribers') || '[]');
             subscribers.forEach(user => {
-                dbRows.innerHTML += `<tr><td>${user.name}</td><td>${user.email}</td></tr>`;
+                dbRows.innerHTML += `<tr><td>${user.name}</td><td>${user.email}</td><td>${user.book}</td></tr>`;
             });
         }
 
-        document.getElementById('subForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const name = document.getElementById('userName').value;
-            const email = document.getElementById('userEmail').value;
+        function handleAction(nameId, emailId, fileName, bookTitle, actionType) {
+            const nameField = document.getElementById(nameId);
+            const emailField = document.getElementById(emailId);
+            
+            const name = nameField.value.trim();
+            const email = emailField.value.trim();
 
-            const subscribers = JSON.parse(localStorage.getItem('subscribers') || '[]');
-            subscribers.push({ name, email });
-            localStorage.setItem('subscribers', JSON.stringify(subscribers));
+            if (!name || !email) {
+                alert("Please fill out both Name and Email fields first!");
+                return;
+            }
 
-            alert(`बधाई हो ${name}! आपका डेटाबेस लॉग सफलतापूर्वक अपडेट हो गया है।`);
-            window.open('Book.pdf', '_blank');
-            document.getElementById('subForm').reset();
+            const logEntry = `${bookTitle} [${actionType}ed]`;
+            const subscribers = JSON.parse(localStorage.getItem('lib_subscribers') || '[]');
+            subscribers.push({ name, email, book: logEntry });
+            localStorage.setItem('lib_subscribers', JSON.stringify(subscribers));
+
+            alert(`Success! Logging data for ${name}. Processing your request to ${actionType} the book...`);
+            
+            const link = document.createElement('a');
+            link.href = fileName;
+            link.target = '_blank';
+            
+            if (actionType === 'Download') {
+                link.download = fileName;
+            }
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            nameField.value = '';
+            emailField.value = '';
             loadDatabase();
-        });
+        }
 
         loadDatabase();
     </script>
