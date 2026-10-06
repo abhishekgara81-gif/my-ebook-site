@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aashu's Premium Digital Library - 5 E-Books</title>
+    <style>
+        @import url('https://googleapis.com');
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+        
+        body { 
+            background: linear-gradient(135deg, #060c11, #0f2027, #203a43, #15202b);
+            color: #fff; 
+            min-height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        /* प्रीमियम नेविगेशन बार */
+        .navbar {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-logo { font-size: 1.5rem; font-weight: 700; color: #00d2ff; text-decoration: none; text-shadow: 0 0 10px rgba(0,210,255,0.3); }
+        .nav-links { display: flex; gap: 25px; list-style: none; }
+        .nav-links a { color: #cfd8dc; text-decoration: none; font-size: 0.95rem; transition: 0.3s; }
+        .nav-links a:hover { color: #00d2ff; }
+
+        .main-content {
+            width: 100%;
+            max-width: 1200px;
+            padding: 50px 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header { text-align: center; margin-bottom: 50px; }
+        .header h1 { font-size: 3.2rem; font-weight: 700; color: #00d2ff; text-shadow: 0 0 25px rgba(0,210,255,0.4); }
+        .header p { color: #b0bec5; margin-top: 12px; font-size: 1.25rem; font-weight: 300; }
+        
+        .library-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 35px; 
+            width: 100%; 
+            margin-bottom: 60px; 
+        }
+
+        .book-card { 
+            background: rgba(255, 255, 255, 0.03); 
+            backdrop-filter: blur(16px); 
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+            border-radius: 24px; 
+            padding: 30px; 
+            text-align: center; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4); 
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: space-between;
+        }
+        .book-card:hover { 
+            transform: translateY(-8px); 
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        /* 📚 जादुई असली 3D बुक मॉकअप डिज़ाइन CSS */
+        .book-container {
+            perspective: 1000px;
+            margin-bottom: 25px;
+        }
+        .real-book-cover {
+            width: 110px;
+            height: 160px;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateY(-15deg);
+            transition: transform 0.5s ease;
+            border-radius: 4px 12px 12px 4px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 15px 10px;
+            color: #fff;
+            font-weight: bold;
+            box-shadow: 5px 5px 20px rgba(0,0,0,0.6);
+        }
+        /* बुक की रीढ़ की हड्डी (Realistic Spine Binding Effect) */
+        .real-book-cover::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 10px; height: 100%;
+            background: rgba(0,0,0,0.25);
+            border-radius: 4px 0 0 4px;
+            border-right: 1px solid rgba(255,255,255,0.1);
+        }
+        .book-card:hover .real-book-cover {
+            transform: rotateY(-5deg) scale(1.08) rotate(2deg);
+        }
+        .book-tag { font-size: 0.75rem; letter-spacing: 1px; color: rgba(255,255,255,0.8); text-align: left; padding-left: 8px; }
+        .book-mid-title { font-size: 1.1rem; text-align: center; text-shadow: 1px 1px 4px rgba(0,0,0,0.5); }
+        .book-footer-tag { font-size: 0.65rem; color: rgba(255,255,255,0.6); text-align: right; }
+
+        /* हर बुक के लिए प्रीमियम कलर कोडिंग */
+        .cover-html { background: linear-gradient(135deg, #00c6ff, #0072ff); border: 1px solid #00d2ff; }
+        .cover-css { background: linear-gradient(135deg, #f857a6, #ff5858); border: 1px solid #f857a6; }
+        .cover-js { background: linear-gradient(135deg, #ffe259, #ffa751); border: 1px solid #ffe259; color: #111; }
+        .cover-js .book-tag, .cover-js .book-footer-tag { color: rgba(0,0,0,0.6); }
+        .cover-stack { background: linear-gradient(135deg, #e65c00, #F9D423); border: 1px solid #e65c00; }
+        .cover-db { background: linear-gradient(135deg, #11998e, #38ef7d); border: 1px solid #38ef7d; }
+
+        .book-title { font-size: 1.35rem; margin-bottom: 10px; color: #fff; font-weight: 600; }
+        .book-desc { font-size: 0.9rem; color: #b0bec5; margin-bottom: 25px; min-height: 48px; line-height: 1.5; }
+        
+        .form-box { width: 100%; }
+        
+        input { 
+            width: 100%; padding: 14px; margin-bottom: 14px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.05); color: #fff; border-radius: 10px; font-size: 14.5px; text-align: center; transition: 0.3s;
+        }
+        input:focus { border-color: #00d2ff; outline: none; background: rgba(255,255,255,0.1); }
+        
+        .btn-group { display: flex; gap: 12px; width: 100%; }
+        .action-btn { color: white; border: none; padding: 12px; font-size: 14.5px; border-radius: 10px; cursor: pointer; flex: 1; font-weight: bold; text-align: center; text-decoration: none; transition: 0.3s; }
+        
+        .view-btn { background: linear-gradient(90deg, #4facfe, #00f2fe); box-shadow: 0 4px 15px rgba(79, 172, 254, 0.25); }
+        .view-btn:hover { background: linear-gradient(90deg, #00f2fe, #4facfe); box-shadow: 0 6px 20px rgba(79, 172, 254, 0.4); }
+
+        .download-btn { background: linear-gradient(90deg, #ff416c, #ff4b2b); box-shadow: 0 4px 15px rgba(255,65,108,0.25); }
+        .download-btn:hover { background: linear-gradient(90deg, #ff4b2b, #ff416c); box-shadow: 0 6px 20px rgba(255,65,108,0.4); }
+        
+        .database-box { width: 100%; background: rgba(0, 0, 0, 0.5); padding: 30px; border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.06); }
+        .database-box h3 { font-size: 1.45rem; margin-bottom: 20px; color: #00d2ff; }
+        
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid rgba(255,255,255,0.06); padding: 14px; text-align: left; }
+        th { background-color: rgba(0, 210, 255, 0.1); color: #00d2ff; }
+        td { color: #e0e0e0; }
+
+        footer { width: 100%; background: rgba(0, 0, 0, 0.5); border-top: 1px solid rgba(255, 255, 255, 0.08); padding: 25px; text-align: center; color: #8892b0; margin-top: 60px; }
+        footer span { color: #00d2ff; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="#" class="nav-logo">📚 Aashu's Library</a>
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#library">Books</a></li>
+            <li><a href="#logs">Database</a></li>
+        </ul>
+    </nav>
+
+    <div class="main-content">
+        
+        <div class="header" id="library">
+            <h1>Aashu's Digital Library</h1>
+            <p>Enter your details to View or Download premium tech e-books for free!</p>
+        </div>
+
+        <div class="library-grid">
+            
+            <!-- Book 1 -->
+            <div class="book-card">
+                <div class="book-container">
+                    <div class="real-book-cover cover-html">
+                        <div class="book-tag">HTML5</div>
+                        <div class="book-mid-title">HTML5 GUIDE</div>
+                        <div class="book-footer-tag">Aashu Ed.</div>
+                    </div>
+                </div>
+                <div class="form-box">
+                    <div class="book-title">HTML5 Master Guide</div>
+                    <div class="book-desc">Learn HTML layout structure in 7 days with practical expert notes.</div>
+                    <input type="text" id="name1" placeholder="Enter Your Name" required>
+                    <input type="email" id="email1" placeholder="Enter Your Email" required>
+                    <div class="btn-group">
+                        <button type="button" class="action-btn view-btn" onclick="handleAction('name1', 'email1', 'Book1.pdf', 'HTML5 Guide', 'View')">👁️ View</button>
+                        <button type="button" class="action-btn download-btn" onclick="handleAction('name1', 'email1', 'Book1.pdf', 'HTML5 Guide', 'Download')">📥 Get</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Book 2 -->
+            <div class="book-card">
+                <div class="book-container">
+                    <div class="real-book-cover cover-css">
+                        <div class="book-tag">CSS3</div>
+                        <div class="book-mid-title">CSS3 PRO</div>
+                        <div class="book-footer-tag">Aashu Ed.</div>
+                    </div>
+                </div>
+                <div class="form-box">
+                    <div class="book-title">CSS3 Styling Pro</div>
+                    <div class="book-desc">Master modern responsive web layouts, core design patterns, and beautiful animations.</div>
+                    <input type="text" id="name2" placeholder="Enter Your Name" required>
+
+                    <input type="email" id="email2" placeholder="Enter Your Email" required>
+                    <div class="btn-group">
+                        <button type="button" class="action-btn view-btn" onclick="handleAction('name2', 'email2', 'Book2.pdf', 'CSS3 Styling', 'View')">👁️ View</button>
+                        <button type="button" class="action-btn download-btn" onclick="handleAction('name2', 'email2', 'Book2.pdf', 'CSS3 Styling', 'Download')">📥 Get</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Book 3 -->
+            <div class="book-card">
+                <div class="book-container">
+                    <div class="real-book-cover cover-js">
+                        <div class="book-tag">JS CORE</div>
+                        <div class="book-mid-title">JAVASCRIPT</div>
+                        <div class="book-footer-tag">Aashu Ed.</div>
+                    </div>
+                </div>
+                <div class="form-box">
+                    <div class="book-title">JavaScript Basics</div>
+                    <div class="book-desc">Understand basic application logic, conditional loops, and dynamic DOM functions.</div>
+                    <input type="text" id="name3" placeholder="Enter Your Name" required>
+                    <input type="email" id="email3" placeholder="Enter Your Email" required>
+                    <div class="btn-group">
+                        <button type="button" class="action-btn view-btn" onclick="handleAction('name3', 'email3', 'Book3.pdf', 'JavaScript Basics', 'View')">👁️ View</button>
+                        <button type="button" class="action-btn download-btn" onclick="handleAction('name3', 'email3', 'Book3.pdf', 'JavaScript Basics', 'Download')">📥 Get</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Book 4 -->
+            <div class="book-card">
+                <div class="book-container">
+                    <div class="real-book-cover cover-stack">
+                        <div class="book-tag">DEV PATH</div>
+                        <div class="book-mid-title">FULL STACK</div>
+                        <div class="book-footer-tag">Aashu Ed.</div>
+                    </div>
+                </div>
+                <div class="form-box">
+                    <div class="book-title">Full Stack Roadmap</div>
+                    <div class="book-desc">A comprehensive step-by-step career path to becoming a professional engineering lead.</div>
+                    <input type="text" id="name4" placeholder="Enter Your Name" required>
+                    <input type="email" id="email4" placeholder="Enter Your Email" required>
+                    <div class="btn-group">
+                        <button type="button" class="action-btn view-btn" onclick="handleAction('name4', 'email4', 'Book4.pdf', 'Full Stack Roadmap', 'View')">👁️ View</button>
+                        <button type="button" class="action-btn download-btn" onclick="handleAction('name4', 'email4', 'Book4.pdf', 'Full Stack Roadmap', 'Download')">📥 Get</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Book 5 -->
+            <div class="book-card">
+                <div class="book-container">
+                    <div class="real-book-cover cover-db">
+                        <div class="book-tag">SQL DATA</div>
+                        <div class="book-mid-title">SQLITE DB</div>
+                        <div class="book-footer-tag">Aashu Ed.</div>
+                    </div>
+                </div>
+                <div class="form-box">
+                    <div class="book-title">SQLite Database Guide</div>
+                    <div class="book-desc">Learn how to build local application tables and store logs securely.</div>
+                    <input type="text" id="name5" placeholder="Enter Your Name" required>
+                    <input type="email" id="email5" placeholder="Enter Your Email" required>
+                    <div class="btn-group">
+                        <button type="button" class="action-btn view-btn" onclick="handleAction('name5', 'email5', 'Book5.pdf', 'SQLite Database', 'View')">👁️ View</button>
+                        <button type="button" class="action-btn download-btn" onclick="handleAction('name5', 'email5', 'Book5.pdf', 'SQLite Database', 'Download')">📥 Get</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- लाइव डेटाबेस डैशबोर्ड -->
+        <div class="database-box" id="logs">
+            <h3>🖥️ Live Database Logs (Downloaded / Viewed Books History)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email Address</th>
+                        <th>Book Name & Action</th>
+                    </tr>
+                </thead>
+                <tbody id="dbRows"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- प्रोफेशनल फुटर -->
+    <footer>
+        <p>&copy; 2026 <span>Aashu's Digital Library</span>. All Rights Reserved. Crafted with ❤️ for Developers.</p>
+    </footer>
+
+    <script>
+        function loadDatabase() {
+            const dbRows = document.getElementById('dbRows');
+            dbRows.innerHTML = '';
+            const subscribers = JSON.parse(localStorage.getItem('lib_subscribers') || '[]');
+            subscribers.forEach(user => {
+                dbRows.innerHTML += `<tr><td>${user.name}</td><td>${user.email}</td><td>${user.book}</td></tr>`;
+            });
+        }
+
+        function handleAction(nameId, emailId, fileName, bookTitle, actionType) {
+            const nameField = document.getElementById(nameId);
+            const emailField = document.getElementById(emailId);
+            
+            const name = nameField.value.trim();
+            const email = emailField.value.trim();
+
+            if (!name || !email) {
+                alert("Please fill out both Name and Email fields first!");
+                return;
+            }
+
+            // ईमेल सुरक्षा वैलिडेशन चेक
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+\$/;
+            if (!emailPattern.test(email)) {
+                alert("Please enter a valid email address (e.g. name@gmail.com)!");
+                return;
+            }
+
+            const logEntry = `${bookTitle} [${actionType}ed]`;
+            const subscribers = JSON.parse(localStorage.getItem('lib_subscribers') || '[]');
+            subscribers.push({ name, email, book: logEntry });
+            localStorage.setItem('lib_subscribers', JSON.stringify(subscribers));
+
+            alert("Success! Logging data for " + name + ". Processing your request to " + actionType + " the book...");
+            
+            const link = document.createElement('a');
+            link.href = fileName;
+            link.target = '_blank';
+            
+            if (actionType === 'Download') {
+                link.download = fileName;
+            }
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            nameField.value = '';
+            emailField.value = '';
+            loadDatabase();
+        }
+
+        loadDatabase();
+    </script>
+</body>
+</html>
